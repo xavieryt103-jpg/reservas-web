@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Reservas</title>
+</head>
+<body>
+  <h1>Sistema de Reservas</h1>
+  <p>Version 1 - publicada automaticamente con CI/CD</p>
+
+  <form id="formulario">
+    <input id="cliente" placeholder="Cliente" required>
+    <input id="servicio" placeholder="Servicio" required>
+    <input id="fecha" type="date" required>
+    <input id="hora" type="time" required>
+    <button type="submit">Reservar</button>
+  </form>
+
+  <p id="mensaje"></p>
+  <ul id="lista"></ul>
+
+  <script src="reservas.js"></script>
+  <script>
+    document.getElementById("formulario").addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      const mensaje = document.getElementById("mensaje");
+      try {
+        registrarReserva(
+          document.getElementById("cliente").value,
+          document.getElementById("servicio").value,
+          document.getElementById("fecha").value,
+          document.getElementById("hora").value
+        );
+        mensaje.textContent = "Reserva registrada";
+      } catch (error) {
+        mensaje.textContent = error.message;
+      }
+      document.getElementById("lista").innerHTML = listarReservas()
+        .map((r) => "<li>" + r.cliente + " - " + r.servicio + " - " + r.fecha + " " + r.hora + "</li>")
+        .join("");
+    });
+  </script>
+</body>
+</html>
